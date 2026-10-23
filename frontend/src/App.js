@@ -24,7 +24,8 @@ import Favorites from "@/pages/Favorites";
 import PaymentResult from "@/pages/PaymentResult";
 import Admin from "@/pages/Admin";
 import Legal from "@/pages/Legal";
-
+import AcceptableUse from "@/pages/AcceptableUse";
+import LawEnforcement from "@/pages/LawEnforcement";
 function FullScreenLoader() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
@@ -52,6 +53,8 @@ function AppRouter() {
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/legal" element={<Legal />} />
+      <Route path="/acceptable-use" element={<AcceptableUse />} />
+      <Route path="/law-enforcement" element={<LawEnforcement />} />
       <Route path="/payment/success" element={<ProtectedRoute><PaymentResult /></ProtectedRoute>} />
       <Route path="/payment/cancel" element={<ProtectedRoute><PaymentResult /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
