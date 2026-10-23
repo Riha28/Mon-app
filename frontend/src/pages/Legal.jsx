@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 import { ArrowLeft } from "lucide-react";
-import { useT8n } from "@/lib/i18n";
+
 
 export default function Legal() {
   const navigate = useNavigate();
-  const { lang } = useT8n();
-  const fr = lang === "fr";
+  
+  const fr = true;
 
   return (
     <div className="min-h-screen bg-background">
