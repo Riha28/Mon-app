@@ -36,7 +36,9 @@ export default function Chat() {
     finally { setLoading(false); }
   };
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [matchId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, [matchId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [data?.messages?.length]);
 
   const postMessage = async (payload) => {
