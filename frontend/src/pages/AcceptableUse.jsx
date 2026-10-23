@@ -21,10 +21,14 @@ export default function AcceptableUse() {
           <p><strong>Âge minimum 18 ans.</strong> Tout compte de mineur est immédiatement supprimé et signalé aux autorités.</p>
           <p><strong>Nos formules d'abonnement Premium mensuel récurrent sans engagement, paiement 100% sécurisé via Stripe:</strong></p>
           <ul className="list-disc ml-5">
-            <li>Découverte: 15€ / mois</li>
-            <li>Populaire: 29,99€ / mois</li>
-            <li>Premium: 49,99€ / mois</li>
-          </ul>
+          
+  <li>Découverte: 15€ / mois</li>
+  <li>Populaire: 29,99€ / mois</li>
+  <li>VIP: 49,99€ / mois</li>
+  <li>Gold: 79,99€ / mois</li>
+  <li>Platinum: 129,99€ / mois</li>
+</ul>
+          
           <p><strong>Interdits:</strong> faux profils, arnaque, usurpation d'identité, harcèlement, discours haineux, contenu sexuellement explicite contre rémunération, prostitution, pornographie, drogues, activités illégales.</p>
           <p><strong>Modération:</strong> Surveillance 24/7. Tout signalement traité en 24h. Bannissement définitif en cas de violation.</p>
         </section>
