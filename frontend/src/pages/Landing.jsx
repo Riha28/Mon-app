@@ -73,8 +73,7 @@ export default function Landing() {
           <nav className="hidden items-center gap-7 text-sm font-medium text-muted-foreground md:flex">
             <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="border-b-2 border-[hsl(var(--gold))] pb-0.5 text-foreground" data-testid="landing-nav-home">{t("landing.nav.home")}</button>
             <button onClick={() => scrollTo("how")} className="transition-colors hover:text-foreground" data-testid="landing-nav-how">{t("landing.nav.how")}</button>
-            <button onClick={() => scrollTo("pricing")} className="transition-colors hover:text-foreground" data-testid="landing-nav-pricing">{t("landing.nav.pricing")}</button>
-            <button onClick={() => navigate("/auth")} className="transition-colors hover:text-foreground" data-testid="landing-nav-login">{t("nav.login")}</button>
+
           </nav>
           <div className="flex items-center gap-3">
             <button onClick={() => navigate("/auth?mode=signup")} className="rounded-full bg-gradient-to-r from-[#FFF099] via-[#D4AF37] to-[#AA7C11] px-4 py-2 text-sm font-semibold text-[#0A0908] shadow-[0_4px_20px_rgba(212,175,55,0.35)] ring-1 ring-[hsl(var(--gold))]/30 transition-transform hover:scale-[1.03]" data-testid="landing-signup-pill">
