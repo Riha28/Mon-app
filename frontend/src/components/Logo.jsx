@@ -31,3 +31,4 @@ export function Logo({ size = 40, withText = false, stacked = false, variant = "
 }
 
 export { LOGO_DARK, LOGO_LIGHT };
+export default Logo;
