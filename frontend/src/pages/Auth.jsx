@@ -134,18 +134,22 @@ const [showPassword, setShowPassword] = useState(false);
               <Label>{t("auth.email")}</Label>
               <Input type="email" value={form.email} onChange={set("email")} required data-testid="auth-email-input" />
             </div>
-            <div className="space-y-1.5">
-              <div className="space-y-1.5">
+         <div className="space-y-1.5">
   <Label>{t("auth.password")}</Label>
   <div className="relative">
-    <Input type={showPassword ? "text" : "password"} value={form.password} onChange={set("password")} required data-testid="auth-password-input" className="pr-10" />
-    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+    <Input type={showPassword ? "text" : "password"} value={form.password} onChange={(e) => setForm({...form, password: e.target.value})} />
+    <button type="button" onClick={() => setShowPassword(!showPassword)}>
       {showPassword ? "🙈" : "👁️"}
     </button>
   </div>
- {mode === "login" && (
-  <button type="button" onClick={() => navigate("/reset-password")} className="text-xs font-medium text-[hsl(var(--gold))] hover:underline" data-testid="auth-forgot-btn">
+</div>
+
+{mode === "login" && (
+  <button type="button" onClick={() => navigate("/reset-password")}>
     {t("auth.forgotPassword")}
+  </button>
+)}
+
   </button>
 )}
 
