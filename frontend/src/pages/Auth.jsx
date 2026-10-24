@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 import { LanguageToggle } from "@/components/LanguageToggle";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Loader2, ArrowLeft, MailCheck } from "lucide-react";
+import { Loader2, ArrowLeft, MailCheck, Eye, EyeOff } from "lucide-react";
 import { api, apiError } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/lib/i18n";
@@ -23,7 +23,7 @@ export default function Auth() {
   const [sentTo, setSentTo] = useState(null);
   const [needsVerify, setNeedsVerify] = useState(false);
   const [resending, setResending] = useState(false);
-  const [consent, setConsent] = useState(false);
+const [showPassword, setShowPassword] = useState(false);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
@@ -32,8 +32,8 @@ export default function Auth() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const age = parseInt(form.age, 10);
-        if (!age || age < 18) {
+        const age = parseInt(form.age, 10); 
+        if (isNaN(age) || age < 18) {
           toast.error(t("auth.ageMin"));
           setBusy(false);
           return;
@@ -49,6 +49,7 @@ export default function Auth() {
         return;
       }
       const { data } = await api.post("/auth/login", { email: form.email, password: form.password });
+  
       setUser(data);
       navigate("/app");
     } catch (err) {
@@ -134,12 +135,16 @@ export default function Auth() {
               <Input type="email" value={form.email} onChange={set("email")} required data-testid="auth-email-input" />
             </div>
             <div className="space-y-1.5">
-              <Label>{t("auth.password")}</Label>
-              <Input type="password" value={form.password} onChange={set("password")} required data-testid="auth-password-input" />
-              {mode === "login" && (
-                <button type="button" onClick={() => navigate("/reset-password")} className="text-xs font-medium text-[hsl(var(--gold))] hover:underline" data-testid="auth-forgot-password-link">Mot de passe oublié ?</button>
-              )}
-            </div>
+              <div className="space-y-1.5">
+  <Label>{t("auth.password")}</Label>
+  <div className="relative">
+    <Input type={showPassword ? "text" : "password"} value={form.password} onChange={set("password")} required data-testid="auth-password-input" className="pr-10" />
+    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+      {showPassword ? "🙈" : "👁️"}
+    </button>
+  </div>
+  {mode === "login" && (
+    <button type="button" onClick={() => navigate("/reset-password")} className="text-xs font-medium text-[hsl(var(----gold))] hover:underline" data-testid="auth-forgot"
             {mode === "signup" && (
               <div className="flex items-start gap-2" data-testid="auth-consent-row">
                 <Checkbox id="consent" checked={consent} onCheckedChange={(v) => setConsent(v === true)} className="mt-0.5" data-testid="auth-consent-checkbox" />
