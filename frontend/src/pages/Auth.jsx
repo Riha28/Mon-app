@@ -150,8 +150,8 @@ const [showPassword, setShowPassword] = useState(false);
   </button>
 )}
 
-  </button>
-)}
+
+
 
 {mode === "signup" && (
   <div className="flex items-start gap-2" data-testid="auth-consent-row">
