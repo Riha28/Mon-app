@@ -143,17 +143,23 @@ const [showPassword, setShowPassword] = useState(false);
       {showPassword ? "🙈" : "👁️"}
     </button>
   </div>
-  {mode === "login" && (
-    <button type="button" onClick={() => navigate("/reset-password")} className="text-xs font-medium text-[hsl(var(----gold))] hover:underline" data-testid="auth-forgot"
-            {mode === "signup" && (
-              <div className="flex items-start gap-2" data-testid="auth-consent-row">
-                <Checkbox id="consent" checked={consent} onCheckedChange={(v) => setConsent(v === true)} className="mt-0.5" data-testid="auth-consent-checkbox" />
-                <label htmlFor="consent" className="text-xs leading-snug text-muted-foreground">
-                  {t("auth.consentPrefix")}{" "}
-                  <Link to="/legal" target="_blank" className="text-[hsl(var(--gold))] underline hover:opacity-80">{t("auth.consentTerms")}</Link>
-                </label>
-              </div>
-            )}
+ {mode === "login" && (
+  <button type="button" onClick={() => navigate("/reset-password")} className="text-xs font-medium text-[hsl(var(--gold))] hover:underline" data-testid="auth-forgot-btn">
+    {t("auth.forgotPassword")}
+  </button>
+)}
+
+{mode === "signup" && (
+  <div className="flex items-start gap-2" data-testid="auth-consent-row">
+    <Checkbox id="consent" checked={consent} onCheckedChange={(v) => setConsent(v === true)} className="mt-0.5" data-testid="auth-consent-checkbox" />
+    <label htmlFor="consent" className="text-xs leading-snug text-muted-foreground">
+      {t("auth.consentPrefix")}{" "}
+      <Link to="/legal" target="_blank" className="text-[hsl(var(--gold))] underline hover:opacity-80">{t("auth.consentTerms")}</Link>
+    </label>
+  </div>
+)}
+
+
             <Button type="submit" className="w-full rounded-full" disabled={busy} data-testid="auth-submit-btn">
               {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               {mode === "signup" ? t("auth.signup") : t("auth.login")}
