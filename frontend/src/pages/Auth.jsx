@@ -9,13 +9,13 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/Logo";
 import { LanguageToggle } from "@/components/LanguageToggle";
-import { useTranslation } from "react-i18next";
+import { useI18n } from "@/lib/i18n";
 import { toast } from "sonner";
 import { ArrowLeft, MailCheck, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Auth() {
-  const { t } = useTranslation();
+ const { t } = useI18n();
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const [mode, setMode] = useState("login");
