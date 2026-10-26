@@ -32,7 +32,7 @@ export const AgeGate = () => {
  setBusy(true);
   try {
     localStorage.setItem("diaspora_age", String(n));
-    setUser((prev) => ({ ...(prev || {}), age: n }));
+    setUser({ age: n });
     toast.success(t("agegate.ok"));
   } catch (err) {
     toast.error("Erreur");
@@ -40,7 +40,7 @@ export const AgeGate = () => {
     setBusy(false);
   }
   };
-  
+  return(
     <div className="flex min-h-screen items-center justify-center bg-background px-4" data-testid="age-gate">
       <div className="w-full max-w-md rounded-3xl border border-[hsl(var(--gold))]/30 bg-card p-8 text-center shadow-[0_20px_60px_-25px_rgba(0,0,0,0.8)]">
         <div className="mb-4 flex justify-center"><Logo /></div>
