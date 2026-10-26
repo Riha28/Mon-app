@@ -22,10 +22,10 @@ export function isVideo(url) {
 
 export function apiError(e) {
   const d = e?.response?.data?.detail;
-  if (d == null) return "Serveur injoignable. Backend manquant.";
+  if (d == null) return ""; 
   if (typeof d === "string") return d;
   if (Array.isArray(d)) {
-    return d.map((x) => (x && typeof x.msg === "string" ? x.msg : JSON.stringify(x))).join(" ");
+    return d.map((x) => (x && typeof x.msg === "string" ? x.msg : JSON.stringify(x))).join(", ");
   }
   if (d && typeof d.message === "string") return d.message;
   if (d && typeof d.msg === "string") return d.msg;
