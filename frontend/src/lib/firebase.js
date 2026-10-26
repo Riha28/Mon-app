@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
+  apiKey: "AIzaSyCIGnLLTiT9RThMWQMl2Qtbk4gOXshIKcw",
+  authDomain: "diasporaloveconnect-1ae71.firebaseapp.com",
+  projectId: "diasporaloveconnect-1ae71",
+  storageBucket: "diasporaloveconnect-1ae71.firebasestorage.app",
+  messagingSenderId: "812894368322",
+  appId: "1:812894368322:web:d7bcae64f8cbdfbf3433db"
 };
 
 export const app = initializeApp(firebaseConfig);
