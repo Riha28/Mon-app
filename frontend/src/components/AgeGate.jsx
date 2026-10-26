@@ -29,17 +29,16 @@ export const AgeGate = () => {
       toast.error(t("auth.consentError"));
       return;
     }
-    setBusy(true);
-    try {
-      const { data } = await api.post("/auth/set-age", { age: n });
-      setUser(data);
-      toast.success(t("agegate.ok"));
-    } catch (err) {
-      toast.error(apiError(err));
-    } finally {
-      setBusy(false);
-    }
-  };
+ setBusy(true);
+  try {
+    localStorage.setItem("diaspora_age", String(n));
+    setUser((prev) => ({ ...(prev || {}), age: n }));
+    toast.success(t("agegate.ok"));
+  } catch (err) {
+    toast.error("Erreur");
+  } finally {
+    setBusy(false);
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4" data-testid="age-gate">
