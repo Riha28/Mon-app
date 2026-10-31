@@ -1,4 +1,4 @@
-import "@/App.css";
+import "./App.css";
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
@@ -14,18 +14,19 @@ import AuthCallback from "@/pages/AuthCallback";
 import AppLayout from "@/components/AppLayout";
 import Discover from "@/pages/Discover";
 import Matches from "@/pages/Matches";
+import Favorites from "@/pages/Favorites";
 import Messages from "@/pages/Messages";
 import Chat from "@/pages/Chat";
 import ProfilePage from "@/pages/ProfilePage";
 import Plans from "@/pages/Plans";
 import Support from "@/pages/Support";
 import VipClub from "@/pages/VipClub";
-import Favorites from "@/pages/Favorites";
 import PaymentResult from "@/pages/PaymentResult";
 import Admin from "@/pages/Admin";
 import Legal from "@/pages/Legal";
 import AcceptableUse from "@/pages/AcceptableUse";
 import LawEnforcement from "@/pages/LawEnforcement";
+
 function FullScreenLoader() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
@@ -38,13 +39,19 @@ function ProtectedRoute({ children, adminOnly }) {
   const { user, loading } = useAuth();
   if (loading || user === null) return <FullScreenLoader />;
   if (!user) return <Navigate to="/auth" replace />;
+  
+  // COURT-CIRCUIT ADMIN : Si c'est votre adresse e-mail, on ignore tous les blocages
+  if (user.email === "supportdiasporaloveconnect@gmail.com") {
+    return children;
+  }
+
   if (adminOnly && user.role !== "admin") return <Navigate to="/app" replace />;
   return children;
 }
 
 function AppRouter() {
   const location = useLocation();
-  if (location.hash?.includes("session_id=")) return <AuthCallback />;
+  if (location.hash.includes("session_id=")) return <AuthCallback />;
 
   return (
     <Routes>
