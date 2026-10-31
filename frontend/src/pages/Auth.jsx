@@ -128,7 +128,7 @@ export default function Auth() {
               <p className="mt-1 text-xs text-muted-foreground">{t("auth.verifyExpiry")}</p>
               <Button variant="outline" className="mt-6 w-full rounded-full" onClick={resend} disabled={resending}>
                 {resending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                {t("auth.verifyResend")}
+                {t("auth.verifyResent")}
               </Button>
               <Button variant="link" className="mt-4 w-full text-center text-sm text-muted-foreground hover:text-foreground" onClick={() => { setNeedsVerify(false); setMode("login"); }}>
                 {t("auth.toLogin")}
