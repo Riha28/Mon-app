@@ -12,9 +12,26 @@ export function AuthProvider({ children }) {
     const auth = getAuth(app);
     return new Promise((resolve) => {
       onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
+        if (currentUser) {
+          // Injection forcée du rôle Admin uniquement pour votre adresse e-mail officielle
+          if (currentUser.email === "supportdiasporaloveconnect@gmail.com") {
+            const adminUser = {
+              ...currentUser,
+              role: "admin",
+              access_level: "admin",
+              display_name: currentUser.displayName || "Admin"
+            };
+            setUser(adminUser);
+            resolve(adminUser);
+            return;
+          }
+          setUser(currentUser);
+          resolve(currentUser);
+        } else {
+          setUser(null);
+          resolve(null);
+        }
         setLoading(false);
-        resolve(currentUser);
       });
     });
   }, []);
