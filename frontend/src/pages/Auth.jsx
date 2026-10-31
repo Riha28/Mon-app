@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import { app } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -13,27 +13,37 @@ export default function Auth() {
   const { setUser } = useAuth();
   const [busy, setBusy] = useState(false);
 
+  // Vérifier automatiquement le résultat du retour de Google au chargement de la page
+  useEffect(() => {
+    const auth = getAuth(app);
+    getRedirectResult(auth)
+      .then((cred) => {
+        if (cred?.user) {
+          const adminSession = {
+            ...cred.user,
+            role: "admin",
+            access_level: "admin",
+            display_name: cred.user.displayName || "Admin"
+          };
+          setUser(adminSession);
+          toast.success("Accès Administrateur validé !");
+          navigate("/admin");
+        }
+      })
+      .catch((err) => {
+        toast.error("Erreur lors du retour de la connexion");
+      });
+  }, [navigate, setUser]);
+
   const googleAdminLogin = async () => {
     setBusy(true);
     try {
       const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
-      const cred = await signInWithPopup(auth, provider);
-      
-      // Injection locale forcée du rôle administrateur pour votre session
-      const adminSession = {
-        ...cred.user,
-        role: "admin",
-        access_level: "admin",
-        display_name: cred.user.displayName || "Admin"
-      };
-      
-      setUser(adminSession);
-      toast.success("Accès Administrateur validé !");
-      navigate("/app");
+      // Utilisation de la redirection au lieu de la pop-up pour éviter les blocages iPad
+      await signInWithRedirect(auth, provider);
     } catch (err) {
-      toast.error("Erreur lors de la connexion Google");
-    } finally {
+      toast.error("Erreur lors de la redirection Google");
       setBusy(false);
     }
   };
