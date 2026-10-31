@@ -1,4 +1,3 @@
-javascript
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, apiError, mediaUrl, isVideo } from "@/lib/api";
@@ -11,16 +10,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Camera, Loader2, ShieldCheck, CreditCard, CheckCircle2, Trash2, Star, X, Play, GripVertical, Lock, Mail } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Camera, Loader2, ShieldCheck, Trash2, Star } from "lucide-react";
 import { toast } from "sonner";
 import { COUNTRY_GROUPS } from "@/lib/countries";
 
 export default function ProfilePage() {
-  const { user, refresh, logout } = useAuth();
+  const { user, refresh } = useAuth();
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const fileRef = useRef(null);
   const [form, setForm] = useState({
     display_name: user?.display_name || "",
@@ -35,35 +31,8 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [kycOpen, setKycOpen] = useState(false);
-  const [deleting, setDeleting] = useState(false);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
-  const canSeeCredits = user?.role === "admin" || user?.has_purchased || ["standard", "premium", "vip", "gold", "platinum"].includes(user?.access_level);
-  const [prefs, setPrefs] = useState(user?.email_prefs || { weekly_recap: true, favorite: true });
-
-  const savePref = async (key, value) => {
-    const prev = prefs;
-    setPrefs((p) => ({ ...p, [key]: value }));
-    try {
-      await api.put("/profile/email-prefs", { [key]: value });
-      await refresh();
-      toast.success(t("profile.saved"));
-    } catch (err) {
-      setPrefs(prev);
-      toast.error(apiError(err));
-    }
-  };
-
-  const cancelSub = async () => {
-    if (!window.confirm(t("account.cancelConfirm"))) return;
-    try {
-      await api.post("/payments/cancel");
-      await refresh();
-      toast.success(t("account.cancelled"));
-    } catch (e) {
-      toast.error(apiError(e));
-    }
-  };
 
   const save = async (e) => {
     e.preventDefault();
@@ -117,34 +86,10 @@ export default function ProfilePage() {
   };
 
   const [items, setItems] = useState([]);
-  const constDragIndex = useRef(null);
 
   useEffect(() => {
     setItems((user?.photos || []).filter((p) => p.path));
   }, [user?.photos]);
-
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("kyc") === "done") {
-      (async () => {
-        try {
-          await refresh();
-        } catch (e) {}
-      })();
-    }
-  }, []);
-
-  const deleteAccount = async () => {
-    setDeleting(true);
-    try {
-      await api.delete("/auth/account");
-      toast.success(t("account.deleted"));
-      await logout();
-      navigate("/");
-    } catch (err) {
-      toast.error(apiError(err));
-      setDeleting(false);
-    }
-  };
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -233,10 +178,41 @@ export default function ProfilePage() {
         </div>
       </form>
 
-      {/* Galerie Photo */}
       <div className="mt-6 rounded-xl border bg-card p-6 shadow-sm space-y-4">
         <h3 className="text-lg font-medium">{t("profile.gallery")}</h3>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {items.map((p) => (
             <div key={p.path} className="relative aspect-square rounded-lg overflow-hidden border bg-muted group">
               <img src={mediaUrl(p.path)} alt="" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                <button type="button" onClick={() => setPrimaryPhoto(p.path)} className="p-1.5 bg-background rounded-full hover:bg-muted text-primary" title={t("profile.setPrimary")}>
+                  <Star className="h-4 w-4" />
+                </button>
+                <button type="button" onClick={() => deletePhoto(p.path)} className="p-1.5 bg-background rounded-full hover:bg-muted text-destructive" title={t("profile.deletePhoto")}>
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {user?.kyc_status !== "verified" && (
+        <div className="mt-6 rounded-xl border border-warning bg-warning/10 p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <ShieldCheck className="h-8 w-8 text-warning" />
+            <div>
+              <h4 className="font-medium text-warning">{t("kyc.title")}</h4>
+              <p className="text-sm text-muted-foreground">{t("kyc.description")}</p>
+            </div>
+          </div>
+          <Button type="button" variant="outline" onClick={() => setKycOpen(true)}>
+            {t("kyc.verifyButton")}
+          </Button>
+        </div>
+      )}
+
+      <KycDialog open={kycOpen} onOpenChange={setKycOpen} />
+    </div>
+  );
+}
