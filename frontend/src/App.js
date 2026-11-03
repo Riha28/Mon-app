@@ -1,16 +1,16 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Toaster } from "@/components/ui/sonner";
-import { I18nProvider } from "@/lib/i18n";
-import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "./components/ui/sonner";
+import { I18nProvider } from "./lib/i18n";
+import { AuthProvider } from "./context/AuthContext";
 
-import Landing from "@/pages/Landing";
-import Auth from "@/pages/Auth";
-import AppLayout from "@/components/AppLayout";
-import Discover from "@/pages/Discover";
-import ProfilePage from "@/pages/ProfilePage";
-import Admin from "@/pages/Admin";
+import Landing from "./pages/Landing";
+import Auth from "./pages/Auth";
+import AppLayout from "./components/AppLayout";
+import Discover from "./pages/Discover";
+import ProfilePage from "./pages/ProfilePage";
+import Admin from "./pages/Admin";
 
 export default function App() {
   return (
