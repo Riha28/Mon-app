@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,22 +13,19 @@ export default function Auth() {
   const { setUser } = useAuth();
   const [busy, setBusy] = useState(false);
   
-  // Vos identifiants de connexion officiels
   const [form, setForm] = useState({ 
     email: "supportdiasporaloveconnect@gmail.com", 
     password: "" 
   });
 
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault();
     setBusy(true);
-    try {
-      const auth = getAuth(app);
-      if (form.password !== "Djamilatou.29")
-      
-      // Configuration de la session utilisateur locale en mode administrateur
+    
+    if (form.password === "Djamilatou.29") {
       const adminSession = {
-        uid:"admin_master",
+        uid: "admin_master_account",
+        email: "supportdiasporaloveconnect@gmail.com",
         role: "admin",
         access_level: "admin",
         display_name: "Administrateur"
@@ -39,11 +34,11 @@ export default function Auth() {
       setUser(adminSession);
       toast.success("Connexion réussie !");
       
-      // Redirection immédiate vers le tableau de bord
-      navigate("/admin");
-    } catch (err) {
-      toast.error("Mot de passe incorrect ou erreur de connexion");
-    } finally {
+      setTimeout(() => {
+        navigate("/admin");
+      }, 300);
+    } else {
+      toast.error("Mot de passe administrateur incorrect");
       setBusy(false);
     }
   };
@@ -64,7 +59,6 @@ export default function Auth() {
               id="email" 
               type="email" 
               value={form.email} 
-              onChange={(e) => setForm({ ...form, email: e.target.value })} 
               disabled 
               className="bg-muted text-muted-foreground cursor-not-allowed"
             />
