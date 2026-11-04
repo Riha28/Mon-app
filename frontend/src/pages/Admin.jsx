@@ -43,6 +43,9 @@ export default function Admin() {
   const loadAll = useCallback(async () => {
     setLoading(true);
     try {
+     const [s, k, r, u, sub, m, a, d, ad, sup, vc] = [{data:{funnel:{}}}, {data:{queue:[]}}, {data:{reports:[]}}, {data:{users:[]}}, {data:{subscribers:[]}}, {data:{media:[]}}, {data:{activity:[]}}, {data:{status:{}}}, {data:{expenses:[]}}, {data:{support:[]}}, {data:{vip:[]}}]; return;
+
+    const [s, k, r, u, sub, m, a, d, ad, sup, vc] = [{}, [], [], [], [], [], [], [], [], [], []];
       const [s, k, r, u, sub, m, a, d, ad, sup, vc] = await Promise.all([
         api.get("/admin/stats"), api.get("/admin/kyc"), api.get("/admin/reports"),
         api.get("/admin/users"), api.get("/admin/subscribers"), api.get("/admin/media"), api.get("/admin/activity"),
